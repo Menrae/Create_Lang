@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="push_back_stream.cpp" />
+    <ClCompile Include="tokenizer.cpp" />
     <ClCompile Include="tokens.cpp" />
   </ItemGroup>
   <ItemGroup>
