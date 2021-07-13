@@ -67,5 +67,70 @@ namespace Create_Lang {
 		}
 	}
 
+	token fetch_operator(push_back_stream& stream) {
+		size_t line_number = stream.line_number();
+		size_t char_index = stream.char_index();
 
+		if (std::optional<reserved_tokens> t = get_operator(stream)) {
+			return token(*t, line_number, char_index);
+		} else {
+			std::string unexpected;
+			size_t err_line_number = stream.line_number();
+			size_t err_char_index = stream.char_index();
+			for (int c = stream(); get_character_type(c) == character_type::punct; c = stream()) {
+				unexpected.push_back(char(c));
+			}
+			throw unexpected_error(unexpected, err_line_number, err_char_index);
+		}
+	}
+
+	token fetch_string(push_back_stream& stream) {
+		size_t line_number = stream.line_number();
+		size_t char_index = stream.char_index();
+
+		std::string str;
+
+		bool escaped = false;
+		int c = stream();
+		for (; get_character_type(c) != character_type::eof; c = stream()) {
+			if (c == '\\') {
+				escaped = true;
+			} else {
+				if (escaped) {
+					switch (c) {
+						case 't':
+							str.push_back('\t');
+							break;
+						case 'n':
+							str.push_back('\n');
+							break;
+						case 'r':
+							str.push_back('\r');
+							break;
+						case '0':
+							str.push_back('\0');
+							break;
+						default:
+							str.push_back(c);
+							break;
+					}
+					escaped = false;
+				} else {
+					switch (c) {
+					case '\t':
+					case '\n':
+					case '\r':
+						stream.push_back(c);
+						throw parsing_error("Expected closing '\"'", stream.line_number(), stream.char_index());
+					case '"':
+						return token(std::move(str), line_number, char_index);
+					default:
+						str.push_back(c);
+					}
+				}
+			}
+		}
+		stream.push_back(c);
+		throw parsing_error("Expected closing '\"'", stream.line_number(), stream.char_index());
+	}
 }
