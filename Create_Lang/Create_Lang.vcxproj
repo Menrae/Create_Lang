@@ -139,12 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="errors.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="push_back_stream.cpp" />
     <ClCompile Include="tokenizer.cpp" />
     <ClCompile Include="tokens.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="errors.h" />
     <ClInclude Include="lookup.h" />
     <ClInclude Include="push_back_stream.h" />
     <ClInclude Include="tokenizer.h" />
