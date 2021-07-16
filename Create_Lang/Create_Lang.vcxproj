@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="lookup.h" />
     <ClInclude Include="push_back_stream.h" />
+    <ClInclude Include="tokenizer.h" />
     <ClInclude Include="tokens.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
