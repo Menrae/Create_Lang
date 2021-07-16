@@ -30,10 +30,29 @@ int main() {
 						std::cout << "Reserved: " << t.get_reserved_token() << std::endl;
 					}
 					else if (t.is_identifier()) {
-						std::cout << "Identifier"
+						std::cout << "Identifier: " << t.get_identifier() << std::endl;
+					}
+					else if (t.is_number()) {
+						std::cout << "Number: " << t.get_number() << std::endl;
+					}
+					else if (t.is_string()) {
+						std::cout << "String: " << t.get_string() << std::endl;
 					}
 				}
 			}
+			catch (const error& err) {
+				strstream.clear();
+				strstream.seekg(0);
+				format_error(err, input, std::cerr);
+			}
 		}
-	}
+		else {
+		}
+	} while (
+		!line.empty()
+#ifdef XCODE_DEBUG_HACK
+		|| std::cin.eof()
+#endif
+		);
+	return 0;
 }
